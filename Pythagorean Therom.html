@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Formula Triangle</title>
+    <title>Pythagorean Theorem Formula Triangle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Fira Code', monospace;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -51,7 +52,7 @@
         text {
             font-size: 32px;
             font-weight: bold;
-            font-family: sans-serif;
+            font-family: 'Fira Code', monospace;
             text-anchor: middle;
             dominant-baseline: middle;
             user-select: none;
@@ -80,23 +81,44 @@
             color: #666;
             margin-bottom: 15px;
         }
+
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .back-button:hover {
+            background: white;
+            color: #667eea;
+            border-color: #667eea;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <a href="index.html" class="back-button">← Back to Homepage</a>
     <div class="instructions">Click a section of the triangle to reveal its formula</div>
     
     <svg viewBox="0 0 300 260">
         <!-- Definition of shapes used for clickable background areas -->
         <!-- Distance (Top Triangle) -->
-        <polygon id="bg-D" class="section" points="150,20 75,140 225,140" fill="#fff" onclick="reveal('D')"/>
+        <polygon id="bg-A²" class="section" points="150,20 75,140 225,140" fill="#fff" onclick="reveal('A²')"/>
         
         <!-- Speed (Bottom Left Quad) -->
-        <polygon id="bg-S" class="section" points="75,140 150,140 150,240 20,240" fill="#fff" onclick="reveal('S')"/>
+        <polygon id="bg-B²" class="section" points="75,140 150,140 150,240 20,240" fill="#fff" onclick="reveal('B²')"/>
         
         <!-- Time (Bottom Right Quad) -->
-        <polygon id="bg-T" class="section" points="150,140 225,140 280,240 150,240" fill="#fff" onclick="reveal('T')"/>
+        <polygon id="bg-C²" class="section" points="150,140 225,140 280,240 150,240" fill="#fff" onclick="reveal('C²')"/>
 
         <!-- Visual Grid Lines (Drawn over backgrounds) -->
         <polygon class="border" points="150,20 20,240 280,240" />
@@ -104,9 +126,9 @@
         <line class="divider" x1="150" y1="140" x2="150" y2="240" />
 
         <!-- Text Labels (Pointer-events none so clicks pass through to shapes) -->
-        <text id="text-D" x="150" y="95" pointer-events="none">D</text>
-        <text id="text-S" x="95" y="195" pointer-events="none">S</text>
-        <text id="text-T" x="205" y="195" pointer-events="none">T</text>
+        <text id="text-A²" x="150" y="95" pointer-events="none">A²</text>
+        <text id="text-B²" x="95" y="195" pointer-events="none">B²</text>
+        <text id="text-C²" x="205" y="195" pointer-events="none">C²</text>
     </svg>
 
     <div id="formula-display">Select a variable</div>
@@ -115,29 +137,25 @@
 <script>
     function reveal(variable) {
         // Reset all sections to default state
-        document.getElementById('bg-D').classList.remove('covered');
-        document.getElementById('bg-S').classList.remove('covered');
-        document.getElementById('bg-T').classList.remove('covered');
-        
-        document.getElementById('text-D').classList.remove('covered-text');
-        document.getElementById('text-S').classList.remove('covered-text');
-        document.getElementById('text-T').classList.remove('covered-text');
+        document.getElementById('bg-A²').classList.remove('covered');
+        document.getElementById('bg-B²').classList.remove('covered');
+        document.getElementById('bg-C²').classList.remove('covered');
 
         const display = document.getElementById('formula-display');
 
         // Apply visual updates and update formula text based on selection
-        if (variable === 'D') {
-            document.getElementById('bg-D').classList.add('covered');
-            document.getElementById('text-D').classList.add('covered-text');
-            display.innerHTML = "Distance = Speed &times; Time";
-        } else if (variable === 'S') {
-            document.getElementById('bg-S').classList.add('covered');
-            document.getElementById('text-S').classList.add('covered-text');
-            display.innerHTML = "Speed = Distance &divide; Time";
-        } else if (variable === 'T') {
-            document.getElementById('bg-T').classList.add('covered');
-            document.getElementById('text-T').classList.add('covered-text');
-            display.innerHTML = "Time = Distance &divide; Speed";
+        if (variable === 'A²') {
+            document.getElementById('bg-A²').classList.add('covered');
+            document.getElementById('text-A²').classList.add('covered-text');
+            display.innerHTML = "A² = B² + C²";
+        } else if (variable === 'B²') {
+            document.getElementById('bg-B²').classList.add('covered');
+            document.getElementById('text-B²').classList.add('covered-text');
+            display.innerHTML = "B² = A² - C²";
+        } else if (variable === 'C²') {
+            document.getElementById('bg-C²').classList.add('covered');
+            document.getElementById('text-C²').classList.add('covered-text');
+            display.innerHTML = "C² = A² - B²";
         }
     }
 </script>
