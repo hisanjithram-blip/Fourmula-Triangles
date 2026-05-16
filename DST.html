@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Formula Triangle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        /* SVG Layout and Styles */
+        svg {
+            width: 300px;
+            height: 260px;
+        }
+
+        .section {
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .section:hover {
+            opacity: 0.8;
+        }
+
+        /* Triangle Outline and Dividers */
+        .border {
+            fill: none;
+            stroke: #000;
+            stroke-width: 3;
+        }
+
+        .divider {
+            stroke: #000;
+            stroke-width: 2;
+        }
+
+        /* Text Elements */
+        text {
+            font-size: 32px;
+            font-weight: bold;
+            font-family: sans-serif;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            user-select: none;
+        }
+
+        /* Hidden state for covered section */
+        .covered {
+            fill: #e65100 !important; /* Orange cover color */
+        }
+        
+        .covered-text {
+            visibility: hidden;
+        }
+
+        /* Formula Display Box */
+        #formula-display {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            min-height: 35px;
+            color: #333;
+        }
+        
+        .instructions {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="instructions">Click a section of the triangle to reveal its formula</div>
+    
+    <svg viewBox="0 0 300 260">
+        <!-- Definition of shapes used for clickable background areas -->
+        <!-- Distance (Top Triangle) -->
+        <polygon id="bg-D" class="section" points="150,20 75,140 225,140" fill="#fff" onclick="reveal('D')"/>
+        
+        <!-- Speed (Bottom Left Quad) -->
+        <polygon id="bg-S" class="section" points="75,140 150,140 150,240 20,240" fill="#fff" onclick="reveal('S')"/>
+        
+        <!-- Time (Bottom Right Quad) -->
+        <polygon id="bg-T" class="section" points="150,140 225,140 280,240 150,240" fill="#fff" onclick="reveal('T')"/>
+
+        <!-- Visual Grid Lines (Drawn over backgrounds) -->
+        <polygon class="border" points="150,20 20,240 280,240" />
+        <line class="divider" x1="75" y1="140" x2="225" y2="140" />
+        <line class="divider" x1="150" y1="140" x2="150" y2="240" />
+
+        <!-- Text Labels (Pointer-events none so clicks pass through to shapes) -->
+        <text id="text-D" x="150" y="95" pointer-events="none">D</text>
+        <text id="text-S" x="95" y="195" pointer-events="none">S</text>
+        <text id="text-T" x="205" y="195" pointer-events="none">T</text>
+    </svg>
+
+    <div id="formula-display">Select a variable</div>
+</div>
+
+<script>
+    function reveal(variable) {
+        // Reset all sections to default state
+        document.getElementById('bg-D').classList.remove('covered');
+        document.getElementById('bg-S').classList.remove('covered');
+        document.getElementById('bg-T').classList.remove('covered');
+        
+        document.getElementById('text-D').classList.remove('covered-text');
+        document.getElementById('text-S').classList.remove('covered-text');
+        document.getElementById('text-T').classList.remove('covered-text');
+
+        const display = document.getElementById('formula-display');
+
+        // Apply visual updates and update formula text based on selection
+        if (variable === 'D') {
+            document.getElementById('bg-D').classList.add('covered');
+            document.getElementById('text-D').classList.add('covered-text');
+            display.innerHTML = "Distance = Speed &times; Time";
+        } else if (variable === 'S') {
+            document.getElementById('bg-S').classList.add('covered');
+            document.getElementById('text-S').classList.add('covered-text');
+            display.innerHTML = "Speed = Distance &divide; Time";
+        } else if (variable === 'T') {
+            document.getElementById('bg-T').classList.add('covered');
+            document.getElementById('text-T').classList.add('covered-text');
+            display.innerHTML = "Time = Distance &divide; Speed";
+        }
+    }
+</script>
+
+</body>
+</html>
